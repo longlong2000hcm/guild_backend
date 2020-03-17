@@ -1,0 +1,19 @@
+{
+  "name": "back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/longlong2000hcm/guild_backend.git"
+  },
+  "author": "Makeli <t8majo03@students.oamk.fi> (https://github.com/Makeliiii)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/longlong2000hcm/guild_backend/issues"
+  },
+  "homepage": "https://github.com/longlong2000hcm/guild_backend#readme"
+}

@@ -18,12 +18,18 @@ app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
+// use routes
 app.use('/api', jobs)
 
+// connect to mongodb
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
     console.log('MongoDB connection established')
 })
 
+// start server
 app.listen(port, () => {
     console.log(`Server running on port ${port}`)
 })
+
+// export app for testing
+module.exports = app

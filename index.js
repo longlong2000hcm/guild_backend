@@ -8,12 +8,17 @@ require('dotenv').config()
 const db = process.env.DB_CONNECTION
 const port = process.env.PORT || 4000
 
+// routes
+const jobs = require('./routes/jobs')
+
 // cors
-app.use(cors)
+app.use(cors())
 
 // body parser
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+app.use('/api', jobs)
 
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
     console.log('MongoDB connection established')

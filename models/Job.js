@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const now = new Date().now
+const now = new Date().toUTCString()
 
 const JobSchema = new Schema({
     title: {
@@ -30,4 +30,4 @@ const JobSchema = new Schema({
     }*/
 })
 
-module.exports = mongoose.model('Job', JobSchema, 'jobs')
+module.exports = Job = mongoose.model('Job', JobSchema, 'jobs')

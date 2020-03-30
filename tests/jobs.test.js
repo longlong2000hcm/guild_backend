@@ -12,15 +12,17 @@ const job = {
     salary: 50.95
 }
 
-// test code for future when login and register is implemented
-/* before(done => {
+let id
+
+before(done => {
     chai.request(app)
         .post('/api/jobs')
-        .send({ job })
+        .send(job)
         .end((err, res) => {
+            id = res.body.job._id
             done()
         })
-}) */
+})
 
 describe('GET', () => {
     it('Fetches all the items', done => {
@@ -35,7 +37,7 @@ describe('GET', () => {
 
     it('Fetches a specific item by id', done => {
         chai.request(app)
-            .get('/api/jobs/5e81e25c1367360d74710bc1')
+            .get(`/api/jobs/${id}`)
             .end((err, res) => {
                 expect(res).to.have.status(200)
                 expect(res.body.success).to.equals(true)
@@ -44,12 +46,11 @@ describe('GET', () => {
     })
 })
 
-describe('POST', () => {
-    it('Posts a new job', done => {
+describe('DELETE', () => {
+    it('Deletes a job', done => {
         chai.request(app)
-            .post('/api/jobs')
+            .delete(`/api/jobs/${id}`)
             // .set('Authorization', `Bearer ${token}`)
-            .send(job)
             .end((err, res) => {
                 expect(res).to.have.status(200)
                 expect(res.body.success).to.equals(true)

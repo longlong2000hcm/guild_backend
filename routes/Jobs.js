@@ -26,6 +26,10 @@ router.get('/jobs', (req, res) => {
     Job.find((err, jobs) => {
         if (err) {
             console.log(err)
+            return res.status(400).json({
+                status: 'Jobs not found',
+                success: false
+            })
         }
 
         return res.status(200).json({
@@ -40,11 +44,32 @@ router.get('/jobs/:id', (req, res) => {
     Job.find({ _id: req.params.id }, (err, job) => {
         if (err) {
             console.log(err)
+            return res.status(400).json({
+                status: 'Job not found',
+                success: false
+            })
         }
 
         return res.status(200).json({
             job,
             status: 'Job found',
+            success: true
+        })
+    })
+})
+
+router.delete('/jobs/:id', (req, res) => {
+    Job.findOneAndDelete({ _id: req.params.id }, (err, job) => {
+        if (err) {
+            console.log(err)
+            return res.status(400).json({
+                status: 'Job not found',
+                success: false
+            })
+        }
+
+        return res.status(200).json({
+            status: 'Deletion successfull',
             success: true
         })
     })

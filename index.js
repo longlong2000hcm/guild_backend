@@ -8,17 +8,28 @@ require('dotenv').config()
 const db = process.env.DB_CONNECTION
 const port = process.env.PORT || 4000
 
+// routes
+const jobs = require('./routes/jobs')
+
 // cors
-app.use(cors)
+app.use(cors())
 
 // body parser
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
+// use routes
+app.use('/api', jobs)
+
+// connect to mongodb
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
     console.log('MongoDB connection established')
 })
 
+// start server
 app.listen(port, () => {
     console.log(`Server running on port ${port}`)
 })
+
+// export app for testing
+module.exports = app

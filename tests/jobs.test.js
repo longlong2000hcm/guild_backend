@@ -32,6 +32,16 @@ describe('GET', () => {
                 done()
             })
     })
+
+    it('Fetches a specific item by id', done => {
+        chai.request(app)
+            .get('/api/jobs/5e81e25c1367360d74710bc1')
+            .end((err, res) => {
+                expect(res).to.have.status(200)
+                expect(res.body.success).to.equals(true)
+                done()
+            })
+    })
 })
 
 describe('POST', () => {

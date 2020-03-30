@@ -5,7 +5,6 @@ const Job = require('../models/Job')
 // @DESC register a new user
 router.post('/jobs', (req, res) => {
     const { title, description, location, salary } = req.body
-
     const newJob = new Job({ title, description, location, salary })
 
     newJob.save()
@@ -32,6 +31,20 @@ router.get('/jobs', (req, res) => {
         return res.status(200).json({
             jobs,
             status: 'Jobs found',
+            success: true
+        })
+    })
+})
+
+router.get('/jobs/:id', (req, res) => {
+    Job.find({ _id: req.params.id }, (err, job) => {
+        if (err) {
+            console.log(err)
+        }
+
+        return res.status(200).json({
+            job,
+            status: 'Job found',
             success: true
         })
     })

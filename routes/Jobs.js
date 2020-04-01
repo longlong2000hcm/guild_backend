@@ -13,20 +13,15 @@ router.post('/jobs', (req, res) => {
             status: 'Job added',
             success: true
         }))
-        .catch(err => {
-            console.log(err.message)
-            res.status(404).json({
-                status: 'emt',
-                success: false
-            })
-        })
+        .catch(err => next(err))
 })
 
-router.get('/jobs', (req, res) => {
+router.get('/jobs', (req, res, next) => {
     Job.find((err, jobs) => {
-        if (err) {
-            console.log(err)
-            return res.status(400).json({
+        if (err) return next(err)
+
+        if (!jobs) {
+            return res.status(404).json({
                 status: 'Jobs not found',
                 success: false
             })
@@ -40,11 +35,12 @@ router.get('/jobs', (req, res) => {
     })
 })
 
-router.get('/jobs/:id', (req, res) => {
-    Job.find({ _id: req.params.id }, (err, job) => {
-        if (err) {
-            console.log(err)
-            return res.status(400).json({
+router.get('/jobs/:id', (req, res, next) => {
+    Job.findOne({ _id: req.params.id }, (err, job) => {
+        if (err) return next(err)
+
+        if (!job) {
+            return res.status(404).json({
                 status: 'Job not found',
                 success: false
             })
@@ -58,11 +54,12 @@ router.get('/jobs/:id', (req, res) => {
     })
 })
 
-router.delete('/jobs/:id', (req, res) => {
-    Job.findOneAndDelete({ _id: req.params.id }, (err) => {
-        if (err) {
-            console.log(err)
-            return res.status(400).json({
+router.delete('/jobs/:id', (req, res, next) => {
+    Job.findOneAndDelete({ _id: req.params.id }, (err, job) => {
+        if (err) return next(err)
+
+        if (!job) {
+            return res.status(404).json({
                 status: 'Job not found',
                 success: false
             })
@@ -75,21 +72,14 @@ router.delete('/jobs/:id', (req, res) => {
     })
 })
 
-router.put('/jobs/:id', (req, res) => {
+router.put('/jobs/:id', (req, res, next) => {
     const { title, description, location, salary } = req.body
 
     Job.findOne({ _id: req.params.id }, (err, job) => {
-        if (err) {
-            console.log(err)
-            return res.status(400).json({
-                status: 'Job not found',
-                success: false
-            })
-        }
+        if (err) return next(err)
 
         if (!job) {
-            console.log(err)
-            return res.status(400).json({
+            return res.status(404).json({
                 status: 'Job not found',
                 success: false
             })
@@ -106,13 +96,7 @@ router.put('/jobs/:id', (req, res) => {
                 status: 'Job edited',
                 success: true
             }))
-            .catch(err => {
-                console.log(err.message)
-                res.status(404).json({
-                    status: 'emt',
-                    success: false
-                })
-            })
+            .catch(err => next(err))
     })
 })
 

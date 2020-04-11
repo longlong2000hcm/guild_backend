@@ -10,6 +10,7 @@ const port = process.env.PORT || 4000
 
 // routes
 const jobs = require('./routes/jobs')
+const users = require('./routes/Users')
 
 // cors
 app.use(cors())
@@ -20,6 +21,7 @@ app.use(express.json())
 
 // use routes
 app.use('/api', jobs)
+app.use('/users', users)
 
 // connect to mongodb
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }, () => {

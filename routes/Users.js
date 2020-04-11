@@ -4,6 +4,7 @@ const has = require('has-value');
 const bcrypt = require('bcryptjs');
 const saltRounds = 4;
 
+
 function validateContentTypeHeaders(req, res, next) {
     if (req.get("content-type") === 'application/json') {
         next();

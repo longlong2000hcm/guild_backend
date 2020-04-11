@@ -4,7 +4,7 @@ const has = require('has-value');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const saltRounds = 4;
-const secret = "h e n t a i";
+const secret = process.env.SECRET;
 
 
 function validateContentTypeHeaders(req, res, next) {

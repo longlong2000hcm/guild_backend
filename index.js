@@ -12,6 +12,9 @@ const port = process.env.PORT || 4000
 const jobs = require('./routes/jobs')
 const users = require('./routes/Users')
 
+// middleware
+const error = require('./middleware/error')
+
 // cors
 app.use(cors())
 
@@ -22,6 +25,9 @@ app.use(express.json())
 // use routes
 app.use('/api', jobs)
 app.use('/users', users)
+
+// error handling middleware
+app.use(error)
 
 // connect to mongodb
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }, () => {

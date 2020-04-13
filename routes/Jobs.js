@@ -2,10 +2,10 @@ const router = require('express').Router()
 const Job = require('../models/Job')
 
 // @ROUTE POST /api/jobs
-// @DESC register a new user
+// @DESC post a new job
 router.post('/jobs', (req, res) => {
-    const { title, description, location, salary } = req.body
-    const newJob = new Job({ title, description, location, salary })
+    const { title, description, location, salary, phone } = req.body
+    const newJob = new Job({ title, description, location, salary, phone })
 
     newJob.save()
         .then(job => res.status(200).json({
@@ -13,20 +13,17 @@ router.post('/jobs', (req, res) => {
             status: 'Job added',
             success: true
         }))
-        .catch(err => {
-            console.log(err.message)
-            res.status(404).json({
-                status: 'emt',
-                success: false
-            })
-        })
+        .catch(err => next(err))
 })
 
-router.get('/jobs', (req, res) => {
+// @ROUTE GET /api/jobs
+// @DESC get all jobs
+router.get('/jobs', (req, res, next) => {
     Job.find((err, jobs) => {
-        if (err) {
-            console.log(err)
-            return res.status(400).json({
+        if (err) return next(err)
+
+        if (!jobs) {
+            return res.status(404).json({
                 status: 'Jobs not found',
                 success: false
             })
@@ -40,11 +37,14 @@ router.get('/jobs', (req, res) => {
     })
 })
 
-router.get('/jobs/:id', (req, res) => {
-    Job.find({ _id: req.params.id }, (err, job) => {
-        if (err) {
-            console.log(err)
-            return res.status(400).json({
+// @ROUTE GET /api/jobs/:id
+// @DESC get a job by job id
+router.get('/jobs/:id', (req, res, next) => {
+    Job.findOne({ _id: req.params.id }, (err, job) => {
+        if (err) return next(err)
+
+        if (!job) {
+            return res.status(404).json({
                 status: 'Job not found',
                 success: false
             })
@@ -58,11 +58,14 @@ router.get('/jobs/:id', (req, res) => {
     })
 })
 
-router.delete('/jobs/:id', (req, res) => {
-    Job.findOneAndDelete({ _id: req.params.id }, (err) => {
-        if (err) {
-            console.log(err)
-            return res.status(400).json({
+// @ROUTE DELETE /api/jobs/:id
+// @DESC delete a job
+router.delete('/jobs/:id', (req, res, next) => {
+    Job.findOneAndDelete({ _id: req.params.id }, (err, job) => {
+        if (err) return next(err)
+
+        if (!job) {
+            return res.status(404).json({
                 status: 'Job not found',
                 success: false
             })
@@ -75,21 +78,16 @@ router.delete('/jobs/:id', (req, res) => {
     })
 })
 
-router.put('/jobs/:id', (req, res) => {
-    const { title, description, location, salary } = req.body
+// @ROUTE PUT /api/jobs/:id
+// @DESC edit a job
+router.put('/jobs/:id', (req, res, next) => {
+    const { title, description, location, salary, phone } = req.body
 
     Job.findOne({ _id: req.params.id }, (err, job) => {
-        if (err) {
-            console.log(err)
-            return res.status(400).json({
-                status: 'Job not found',
-                success: false
-            })
-        }
+        if (err) return next(err)
 
         if (!job) {
-            console.log(err)
-            return res.status(400).json({
+            return res.status(404).json({
                 status: 'Job not found',
                 success: false
             })
@@ -99,6 +97,7 @@ router.put('/jobs/:id', (req, res) => {
         job.description = description
         job.location = location
         job.salary = salary
+        job.phone = phone
 
         job.save()
             .then(job => res.status(200).json({
@@ -106,13 +105,7 @@ router.put('/jobs/:id', (req, res) => {
                 status: 'Job edited',
                 success: true
             }))
-            .catch(err => {
-                console.log(err.message)
-                res.status(404).json({
-                    status: 'emt',
-                    success: false
-                })
-            })
+            .catch(err => next(err))
     })
 })
 

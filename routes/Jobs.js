@@ -2,10 +2,10 @@ const router = require('express').Router()
 const Job = require('../models/Job')
 
 // @ROUTE POST /api/jobs
-// @DESC register a new user
+// @DESC post a new job
 router.post('/jobs', (req, res) => {
-    const { title, description, location, salary } = req.body
-    const newJob = new Job({ title, description, location, salary })
+    const { title, description, location, salary, phone } = req.body
+    const newJob = new Job({ title, description, location, salary, phone })
 
     newJob.save()
         .then(job => res.status(200).json({
@@ -16,6 +16,8 @@ router.post('/jobs', (req, res) => {
         .catch(err => next(err))
 })
 
+// @ROUTE GET /api/jobs
+// @DESC get all jobs
 router.get('/jobs', (req, res, next) => {
     Job.find((err, jobs) => {
         if (err) return next(err)
@@ -35,6 +37,8 @@ router.get('/jobs', (req, res, next) => {
     })
 })
 
+// @ROUTE GET /api/jobs/:id
+// @DESC get a job by job id
 router.get('/jobs/:id', (req, res, next) => {
     Job.findOne({ _id: req.params.id }, (err, job) => {
         if (err) return next(err)
@@ -54,6 +58,8 @@ router.get('/jobs/:id', (req, res, next) => {
     })
 })
 
+// @ROUTE DELETE /api/jobs/:id
+// @DESC delete a job
 router.delete('/jobs/:id', (req, res, next) => {
     Job.findOneAndDelete({ _id: req.params.id }, (err, job) => {
         if (err) return next(err)
@@ -72,6 +78,8 @@ router.delete('/jobs/:id', (req, res, next) => {
     })
 })
 
+// @ROUTE PUT /api/jobs/:id
+// @DESC edit a job
 router.put('/jobs/:id', (req, res, next) => {
     const { title, description, location, salary } = req.body
 

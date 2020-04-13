@@ -81,7 +81,7 @@ router.delete('/jobs/:id', (req, res, next) => {
 // @ROUTE PUT /api/jobs/:id
 // @DESC edit a job
 router.put('/jobs/:id', (req, res, next) => {
-    const { title, description, location, salary } = req.body
+    const { title, description, location, salary, phone } = req.body
 
     Job.findOne({ _id: req.params.id }, (err, job) => {
         if (err) return next(err)
@@ -97,6 +97,7 @@ router.put('/jobs/:id', (req, res, next) => {
         job.description = description
         job.location = location
         job.salary = salary
+        job.phone = phone
 
         job.save()
             .then(job => res.status(200).json({

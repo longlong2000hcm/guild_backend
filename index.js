@@ -10,6 +10,7 @@ const port = process.env.PORT || 4000
 
 // routes
 const jobs = require('./routes/jobs')
+const users = require('./routes/Users')
 
 // middleware
 const error = require('./middleware/error')
@@ -23,6 +24,7 @@ app.use(express.json())
 
 // use routes
 app.use('/api', jobs)
+app.use('/users', users)
 
 // error handling middleware
 app.use(error)

@@ -30,8 +30,13 @@ app.use('/users', users)
 app.use(error)
 
 // connect to mongodb
-mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
-    console.log('MongoDB connection established')
+mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
+    if (err) {
+        console.log('Unable to connect to the DB. Error:', err.message);
+    } else {
+        console.log('MongoDB connection established');
+    }
+    
 })
 
 // start server

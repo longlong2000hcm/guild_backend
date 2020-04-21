@@ -4,8 +4,8 @@ const Job = require('../models/Job')
 // @ROUTE POST /api/jobs
 // @DESC post a new job
 router.post('/jobs', (req, res) => {
-    const { title, description, location, salary, phone } = req.body
-    const newJob = new Job({ title, description, location, salary, phone })
+    const { title, description, location, salary, phone, ownerID } = req.body
+    const newJob = new Job({ title, description, location, salary, phone, ownerID })
 
     newJob.save()
         .then(job => res.status(200).json({
@@ -13,7 +13,10 @@ router.post('/jobs', (req, res) => {
             status: 'Job added',
             success: true
         }))
-        .catch(err => next(err))
+        .catch(err => {
+            console.log(err);
+            res.status(400).json({"message": err});
+        })
 })
 
 // @ROUTE GET /api/jobs

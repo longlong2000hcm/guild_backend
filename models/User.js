@@ -15,6 +15,14 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    myJob: {
+        type: Array,
+        required: false
+    },
+    takenJob: {
+        type: Array,
+        required: false
+    }
 })
 
 module.exports = User = mongoose.model('User', UserSchema, 'users')

@@ -16,14 +16,14 @@ const JobSchema = new Schema({
     location: {
         type: Array,
         required: [true, 'Location is required'],
-        validate: [
-            {
-                validator: arr => {
-                    return arr.length == 2
-                },
-                message: () => 'Array.length must be 2'
-            }
-        ]
+        // validate: [
+        //     {
+        //         validator: arr => {
+        //             return arr.length == 2
+        //         },
+        //         message: () => 'Array.length must be 2'
+        //     }
+        // ]
     },
     salary: {
         type: Schema.Types.Decimal128,
@@ -32,14 +32,14 @@ const JobSchema = new Schema({
     phone: {
         type: String,
         required: [true, 'Phone number is required'],
-        validate: [
-            {
-                validator: phone => {
-                    return phoneRegEx.test(phone)
-                },
-                message: () => 'Phone number is not valid'
-            }
-        ]
+        // validate: [
+        //     {
+        //         validator: phone => {
+        //             return phoneRegEx.test(phone)
+        //         },
+        //         message: () => 'Phone number is not valid'
+        //     }
+        // ]
     },
     date: {
         type: Date,
@@ -48,6 +48,12 @@ const JobSchema = new Schema({
     ownerID: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+    },
+    takenBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: false,
+        default: null
     }
 })
 

@@ -61,6 +61,27 @@ router.get('/jobs/:id', (req, res, next) => {
     })
 })
 
+// @ROUTE GET /api/jobs/ownerID/:id
+// @DESC get a job by ownerID
+router.get('/jobs/ownerID/:id', (req, res, next) => {
+    Job.find({ ownerID: req.params.id }, (err, job) => {
+        if (err) return next(err)
+
+        if (!job) {
+            return res.status(404).json({
+                status: 'Job not found',
+                success: false
+            })
+        }
+
+        return res.status(200).json({
+            jobs: job,
+            status: 'Job found',
+            success: true
+        })
+    })
+})
+
 // @ROUTE DELETE /api/jobs/:id
 // @DESC delete a job
 router.delete('/jobs/:id', (req, res, next) => {

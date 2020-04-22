@@ -61,6 +61,27 @@ router.get('/jobs/:id', (req, res, next) => {
     })
 })
 
+// @ROUTE GET /api/availableJobs/:userId
+// @DESC get all job not made by userId
+router.get('/availableJobs/:userId', (req, res, next) => {
+    Job.find({ ownerID: {$ne: req.params.userId}},(err, jobs) => {
+        if (err) return next(err)
+
+        if (!jobs) {
+            return res.status(404).json({
+                status: 'Jobs not found',
+                success: false
+            })
+        }
+
+        return res.status(200).json({
+            jobs,
+            status: 'Jobs found',
+            success: true
+        })
+    })
+})
+
 // @ROUTE GET /api/jobs/ownerID/:id
 // @DESC get a job by ownerID
 router.get('/jobs/ownerID/:id', (req, res, next) => {
